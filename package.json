@@ -1,0 +1,38 @@
+{
+  "name": "battery-staple",
+  "version": "0.0.1",
+  "description": "Firbase-backed password manager",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder -ml"
+  },
+  "build": {
+    "appId": "com.rothlbaby.battery-staple",
+    "files": [
+      "firebase/*",
+      "bootstrap/*",
+      "nacl/*",	
+      "package.json",
+      "*.js",
+      "*.html"
+      ],
+    "mac": {
+      "category": "public.app-category.utilities"
+    }
+  },
+  "author": "Mark Rothlisberger",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^3.0.4",
+    "electron-builder": "^20.28.4",
+    "bootstrap": "^4.1.3",
+    "firebase": "^5.3.0",
+    "tweetnacl": "^1.0.0",
+    "tweetnacl-util": "^0.15.0"
+  },
+  "dependencies": {
+  }
+}
