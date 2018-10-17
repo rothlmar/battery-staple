@@ -14,7 +14,6 @@ function createWindow() {
   win.setBrowserView(view);
   win.loadFile('startup.html');
   view.setBounds({ x: 0, y: 350, width: 800, height: 350 });
-  view.setAutoResize({ width: true, height: true });
   win.on('closed', () => { win = null; view = null });
 };
 
