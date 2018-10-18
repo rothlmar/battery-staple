@@ -9,9 +9,15 @@ const settings = { timestampsInSnapshots: true };
 db.settings(settings);
 db.enablePersistence().catch(console.log);
 
+let uid = null;
+let unsubscribe = null;
+
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    db.collection('passwords').onSnapshot((querySnapshot) => {
+    uid = user.uid;
+    document.getElementById('content-div').className = '';
+    document.getElementById('firebase-login').className = 'd-none';
+    unsubscribe = db.collection(uid).onSnapshot((querySnapshot) => {
       const cats = document.getElementById('categories');
       const catPasswords = document.getElementById('catPasswords');
       querySnapshot.forEach(d => {
@@ -55,11 +61,13 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
   
 ipcRenderer.on('pw-dispatch', (event, arg) => {
-  db.collection('passwords').add(arg);
+  if (uid !== null) {
+    db.collection(uid).add(arg);
+  }
 });
 
 ipcRenderer.on('delete-msg', (event, arg) => {
-  db.collection('passwords').doc(arg).delete().then(function(x) {
+  db.collection(uid).doc(arg).delete().then(function(x) {
     console.log("WAS THERE AN ARG?", x);
     const elt = document.getElementById(arg);
     elt.parentNode.removeChild(elt);
@@ -67,7 +75,45 @@ ipcRenderer.on('delete-msg', (event, arg) => {
 });
 
 function login() {
-  const email = document.getElementById('fb-email').value;
-  const password = document.getElementById('fb-password').value;
-  firebase.auth().signInWithEmailAndPassword(email, password).catch(console.log);
+  const email = document.getElementById('fb-email');
+  const password = document.getElementById('fb-password');
+  firebase.auth().signInWithEmailAndPassword(email.value, password.value)
+    .then(() => {
+      email.value = '';
+      password.value = '';
+    })
+    .catch(console.log);
+}
+
+function create() {
+  const email = document.getElementById('new-email');
+  const password = document.getElementById('new-password');
+  const passwordVerify = document.getElementById('new-password-verify');
+  if ( password.value !== passwordVerify.value ) {
+    alert('Passwords do not match, please fix!');
+  } else if ( password.value.length <= 6 ){
+    alert('Password must be at least 6 characters, please fix!');
+  } else {
+    firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
+      .then(() => {
+	email.value = '';
+	password.value = '';
+	passwordVerify.value = '';
+      })
+      .catch(console.log);
+  }
+}
+
+function loginAnon() {
+  firebase.auth().signInAnonymously().catch(console.log);
+};
+
+function logout() {
+  firebase.auth().signOut().then(() => {
+    unsubscribe();
+    document.getElementById('categories').innerHTML = '';
+    document.getElementById('catPasswords').innerHTML = '';
+    document.getElementById('firebase-login').className = '';
+    document.getElementById('content-div').className = 'd-none'
+  }).catch(console.log)
 }

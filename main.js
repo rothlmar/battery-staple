@@ -12,6 +12,7 @@ function createWindow() {
   win = new BrowserWindow(opts);
   view = new BrowserView({ webPreference: webPreferences })
   win.setBrowserView(view);
+  // view.webContents.openDevTools();
   win.loadFile('startup.html');
   view.setBounds({ x: 0, y: 350, width: 800, height: 350 });
   win.on('closed', () => { win = null; view = null });
