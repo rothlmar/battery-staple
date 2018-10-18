@@ -4,6 +4,17 @@ require('./firebase/firebase-auth');
 require('./firebase/firebase-firestore');
 firebase.initializeApp(require('./config'));
 
+const InputMenu = Menu.buildFromTemplate([
+  {label: 'Cut', role: 'cut'},
+  {label: 'Copy', role: 'copy'},
+  {label: 'Paste', role: 'paste'}
+]);
+
+window.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  InputMenu.popup(remote.getCurrentWindow());
+}, false);
+
 const db = firebase.firestore();
 const settings = { timestampsInSnapshots: true };
 db.settings(settings);

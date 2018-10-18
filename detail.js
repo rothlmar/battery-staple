@@ -1,6 +1,19 @@
 const crypto = require('crypto');
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, clipboard, remote } = require('electron');
+const { Menu } = remote;
+
 const elts = ['category', 'service', 'name', 'value', 'notes'];
+
+const InputMenu = Menu.buildFromTemplate([
+  {label: 'Cut', role: 'cut'},
+  {label: 'Copy', role: 'copy'},
+  {label: 'Paste', role: 'paste'}
+]);
+
+window.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  InputMenu.popup(remote.getCurrentWindow());
+}, false);
 
 function replace(eltId, val) {
   document.getElementById(eltId).innerHTML = val || '';
@@ -22,6 +35,9 @@ function deletePw() {
   elts.concat('id').forEach(e => replace(e, '&nbsp;'));
 };
 
+function copyPw() {
+  clipboard.writeText(document.getElementById('value').innerHTML);
+};
 
 function generatePw() {
   let pw = '';
