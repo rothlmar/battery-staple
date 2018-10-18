@@ -7,7 +7,7 @@
     "start": "gulp && electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "gulp && electron-builder --dir",
-    "dist": "gulp && electron-builder -ml"
+    "dist": "gulp && electron-builder -mwl"
   },
   "build": {
     "appId": "com.rothlbaby.battery-staple",
