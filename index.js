@@ -1,4 +1,5 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, remote } = require('electron');
+const { Menu } = remote;
 const firebase = require('./firebase/firebase-app');
 require('./firebase/firebase-auth');
 require('./firebase/firebase-firestore');

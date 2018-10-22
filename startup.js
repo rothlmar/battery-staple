@@ -1,4 +1,5 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, remote } = require('electron');
+const { Menu } = remote;
 
 const InputMenu = Menu.buildFromTemplate([
   {label: 'Cut', role: 'cut'},
