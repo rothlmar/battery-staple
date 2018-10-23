@@ -20,6 +20,20 @@ function createWindow() {
   if (process.platform == 'darwin') {
     Menu.setApplicationMenu(Menu.buildFromTemplate([
       {
+	label: 'Battery Staple',
+	submenu: [
+	  {role: 'about'},
+	  {type: 'separator'},
+	  {role: 'services', submenu: []},
+	  {type: 'separator'},
+	  {role: 'hide'},
+	  {role: 'hideothers'},
+	  {role: 'unhide'},
+	  {type: 'separator'},
+	  {role: 'quit'}
+	]
+      },
+      {
 	label: 'Edit',
 	submenu: [
 	  { role: 'cut' },
