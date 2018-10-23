@@ -37,7 +37,6 @@ firebase.auth().onAuthStateChanged(function(user) {
 	const catId = `cat-${data.category.toLowerCase()}`;
 	const catListId = `ul-${data.category.toLowerCase()}`;
 	const cat = document.getElementById(catId);
-	let li = document.getElementById(d.id);
 	if (cat === null) {
 	  const b = document.createElement('button');
 	  b.type = 'button';
@@ -50,13 +49,30 @@ firebase.auth().onAuthStateChanged(function(user) {
 	    Array.from(catPasswords.children).forEach(item => item.className = 'd-none');
 	    document.getElementById(catListId).className = '';
 	  }
-	  cats.appendChild(b);
+	  if (!cats.hasChildNodes()) {
+	    cats.appendChild(b);
+	  } else {
+	    let inserted = false;
+	    for (let idx = 0; idx < cats.childNodes.length; idx++) {
+	      const elt = cats.childNodes[idx];
+	      if (b.id < elt.id) {
+		cats.insertBefore(b, elt);
+		inserted = true;
+		break;
+	      }
+	    }
+	    if (inserted === false) {
+	      cats.appendChild(b);
+	    }
+	  }
+
 	  const ul = document.createElement('ul');
 	  ul.className = 'd-none';
 	  ul.id = catListId;
 	  catPasswords.appendChild(ul);
 	}
 
+	let li = document.getElementById(d.id);
 	if (li !== null) {
 	  li.parentNode.removeChild(li);
 	}
@@ -65,7 +81,22 @@ firebase.auth().onAuthStateChanged(function(user) {
 	li.id = d.id;
 	li.onclick = (event) => ipcRenderer.send('async-msg', Object.assign({id: d.id}, data));
 	li.appendChild(document.createTextNode(data.service));
-	ul.appendChild(li);
+	if (!ul.hasChildNodes()) {
+	  ul.appendChild(li);
+	} else {
+	  let inserted = false;
+	  for (let idx = 0; idx < ul.childNodes.length; idx++) {
+	    const elt = ul.childNodes[idx];
+	    if (li.innerHTML.toLowerCase() < elt.innerHTML.toLowerCase()) {
+	      ul.insertBefore(li, elt);
+	      inserted = true;
+	      break;
+	    }
+	  }
+	  if (inserted === false) {
+	    ul.appendChild(li);
+	  }
+	}
       });
     });
   } else {
