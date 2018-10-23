@@ -19,16 +19,29 @@ function replace(eltId, val) {
   document.getElementById(eltId).innerHTML = val || '';
 }
 
+function replaceInput(eltId, val) {
+  document.getElementById(eltId).value = val || '';
+}
+
 ipcRenderer.on('async-password', (event, arg) => {
   document.getElementById('details').className = '';
   document.getElementById('add-new').className = 'd-none';
+  document.getElementById('edit').className = 'd-none';
   elts.concat('id').forEach(e => replace(e, arg[e]));
 });
 
 function addNew() {
-  document.getElementById('details').className = 'd-none';
   document.getElementById('add-new').className = '';
+  document.getElementById('details').className = 'd-none';
+  document.getElementById('edit').className = 'd-none';
 };
+
+function showEdit() {
+  document.getElementById('edit').className = '';
+  document.getElementById('details').className = 'd-none';
+  document.getElementById('add-new').className = 'd-none';
+  elts.forEach(e => replaceInput(`${e}-edit`, document.getElementById(e).innerHTML));
+}
 
 function deletePw() {
   ipcRenderer.send('pw-delete', document.getElementById('id').innerHTML);
@@ -68,17 +81,35 @@ function generatePw() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('add-new-form');
-  form.addEventListener('submit', function(event) {
+  const addForm = document.getElementById('add-new-form');
+  addForm.addEventListener('submit', function(event) {
     event.preventDefault();
-    const password = {};
+    const data = {};
     const reducer = (a, e) => {
       const elt = document.getElementById(`${e}-new`);
       a[e] = elt.value;
       elt.value = '';
       return a
     };
-    elts.reduce(reducer, password);
-    ipcRenderer.send('pw-update', password);
+    elts.reduce(reducer, data);
+    ipcRenderer.send('pw-update', data);
+  });
+
+  const editForm = document.getElementById('edit-form');
+  editForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const data = {};
+    const reducer = (a, e) => {
+      const elt = document.getElementById(`${e}-edit`);
+      a[e] = elt.value;
+      elt.value = '';
+      return a
+    };
+    elts.reduce(reducer, data);
+    elts.forEach(e => replace(e, data[e]));
+    data.id = document.getElementById('id').innerHTML;
+    document.getElementById('details').className = '';
+    document.getElementById('edit').className = 'd-none';
+    ipcRenderer.send('pw-update', data);
   });
 });

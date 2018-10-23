@@ -27,6 +27,9 @@
 	    <div class="mb-2">
 	      <button class="btn btn-primary" onclick="addNew()">Add New</button>
 	    </div>
+	    <div class="mb-2">
+	      <button class="btn btn-" onclick="showEdit()">Edit</button>
+	    </div>
 	    <div>
 	      <button class="btn btn-danger" onclick="deletePw()">Delete</button>
 	    </div>
@@ -90,6 +93,68 @@
 	      <textarea class="form-control"
 			id="notes-new"
 			name="notes-new"
+			tabindex="5"></textarea>
+	    </div>
+	  </div>
+	</form>
+      </div>
+      <div id="edit" class="d-none">
+	<h3>Edit</h3>
+	<form id="edit-form">
+	  <div class="form-row mb-2">
+	    <div class="col-sm-5">
+	      <input type="text"
+		     class="form-control"
+		     id="category-edit"
+		     name="category-edit"
+		     tabindex="1"
+		     placeholder="Category">
+	    </div>
+	    <div class="col-sm-5">
+	      <input type="text"
+		     class="form-control"
+		     id="service-edit"
+		     name="service-edit"
+		     tabindex="2"
+		     placeholder="Service">
+	    </div>
+	    <div class="col-sm-2">
+	      <button class="btn btn-primary" type="submit" tabindex="6">Save</button>
+	    </div>
+	  </div>
+	  <div class="form-row mb-2">
+	    <div class="col-sm-5">
+	      <input type="text"
+		     class="form-control"
+		     id="name-edit"
+		     name="name-edit"
+		     tabindex="3"
+		     placeholder="Account Name">
+	    </div>
+	    <div class="col-sm-5">
+	      <div class="input-group">
+		<input type="text"
+		       class="form-control"
+		       id="value-edit"
+		       name="value-edit"
+		       tabindex="4"
+		       Placeholder="Password">
+		<div class="input-group-append">
+		  <span class="input-group-text"
+			onclick="generatePw()"
+			tabindex="4">
+		    +
+		  </span>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="form-row mb-2">
+	    <label for="notes-new" class="col-sm-2 col-form-label">Notes</label>
+	    <div class="col-sm-8">
+	      <textarea class="form-control"
+			id="notes-edit"
+			name="notes-edit"
 			tabindex="5"></textarea>
 	    </div>
 	  </div>

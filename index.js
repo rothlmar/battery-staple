@@ -37,7 +37,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 	const catId = `cat-${data.category.toLowerCase()}`;
 	const catListId = `ul-${data.category.toLowerCase()}`;
 	const cat = document.getElementById(catId);
-	const li = document.getElementById(d.id);
+	let li = document.getElementById(d.id);
 	if (cat === null) {
 	  const b = document.createElement('button');
 	  b.type = 'button';
@@ -57,14 +57,15 @@ firebase.auth().onAuthStateChanged(function(user) {
 	  catPasswords.appendChild(ul);
 	}
 
-	if (li === null) {
-	  const ul = document.getElementById(`ul-${data.category.toLowerCase()}`);
-	  const li = document.createElement('li');
-	  li.id = d.id;
-	  li.onclick = (event) => ipcRenderer.send('async-msg', Object.assign({id: d.id}, data));
-	  li.appendChild(document.createTextNode(data.service));
-	  ul.appendChild(li);
-	};
+	if (li !== null) {
+	  li.parentNode.removeChild(li);
+	}
+	const ul = document.getElementById(`ul-${data.category.toLowerCase()}`);
+	li = document.createElement('li');
+	li.id = d.id;
+	li.onclick = (event) => ipcRenderer.send('async-msg', Object.assign({id: d.id}, data));
+	li.appendChild(document.createTextNode(data.service));
+	ul.appendChild(li);
       });
     });
   } else {
@@ -74,13 +75,19 @@ firebase.auth().onAuthStateChanged(function(user) {
   
 ipcRenderer.on('pw-dispatch', (event, arg) => {
   if (uid !== null) {
-    db.collection(uid).add(arg);
+    const collection = db.collection(uid);
+    if (arg.hasOwnProperty('id')) {
+      const id = arg.id;
+      delete arg.id;
+      collection.doc(id).set(arg);
+    } else {
+      collection.add(arg);
+    }
   }
 });
 
 ipcRenderer.on('delete-msg', (event, arg) => {
   db.collection(uid).doc(arg).delete().then(function(x) {
-    console.log("WAS THERE AN ARG?", x);
     const elt = document.getElementById(arg);
     elt.parentNode.removeChild(elt);
   });
