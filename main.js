@@ -1,4 +1,4 @@
-const { app, BrowserWindow, BrowserView, clipboard, ipcMain } = require('electron');
+const { app, BrowserWindow, BrowserView, clipboard, ipcMain, Menu } = require('electron');
 const nacl = require('./nacl/nacl-fast.min.js');
 nacl.util = require('./nacl/nacl-util.min.js');
 
@@ -16,6 +16,19 @@ function createWindow() {
   win.loadFile('startup.html');
   view.setBounds({ x: 0, y: 350, width: 800, height: 350 });
   win.on('closed', () => { win = null; view = null });
+
+  if (process.platform == 'darwin') {
+    Menu.setApplicationMenu(Menu.buildFromTemplate([
+      {
+	label: 'Edit',
+	submenu: [
+	  { role: 'cut' },
+	  { role: 'copy' },
+	  { role: 'paste' }
+	]
+      }
+    ]));
+  }
 };
 
 function decrypt(element) {
