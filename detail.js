@@ -49,10 +49,10 @@ function deletePw() {
 };
 
 function copyPw() {
-  clipboard.writeText(document.getElementById('value').innerHTML);
+  clipboard.writeText(document.getElementById('value').textContent);
 };
 
-function generatePw() {
+function generatePw(eltId) {
   let pw = '';
   const lower = 'abcdefghijklmnopqrstuvwxyz';
   const upper = lower.toUpperCase();
@@ -76,7 +76,7 @@ function generatePw() {
 	break;
       }
     }
-    document.getElementById('value-new').value = pw;
+    document.getElementById(eltId).value = pw;
   })
 }
 

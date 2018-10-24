@@ -14,7 +14,7 @@ function createWindow() {
   win.setBrowserView(view);
   // view.webContents.openDevTools();
   win.loadFile('startup.html');
-  view.setBounds({ x: 0, y: 350, width: 800, height: 350 });
+  view.setBounds({ x: 0, y: 300, width: 800, height: 400 });
   win.on('closed', () => { win = null; view = null });
 
   if (process.platform == 'darwin') {
