@@ -48,6 +48,10 @@ function deletePw() {
   elts.concat('id').forEach(e => replace(e, '&nbsp;'));
 };
 
+function copyName() {
+  clipboard.writeText(document.getElementById('name').textContent);
+};
+
 function copyPw() {
   clipboard.writeText(document.getElementById('value').textContent);
 };

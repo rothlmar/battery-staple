@@ -6,13 +6,16 @@
   <body>
     <div class="container mt-1">
       <div id="details" class="d-none">
-	<h3><span id="service">&nbsp;</span></h3>
+	<h3>Service: <span id="service">&nbsp;</span></h3>
 	<h4><span id="category" class="d-none">&nbsp;</span></h4>
 	<div class="row">
 	  <div class="col-10">
 	    <dl class="row">
-	      <dt class="col-3">Account</dt>
-	      <dd class="col-9" id="name">&nbsp;</dd>
+	      <dt class="col-3">User Name</dt>
+	      <dd class="col-9">
+		<span id="name">&nbsp;</span>
+		<button class="btn btn-outline-secondary btn-sm" onclick="copyName()">Copy</button>
+	      </dd>
 	      <dt class="col-3">Password</dt>
 	      <dd class="col-9 text-monospace">
 		<span id="value">&nbsp;</span>
@@ -54,7 +57,7 @@
 		     id="service-new"
 		     name="service-new"
 		     tabindex="2"
-		     placeholder="Service">
+		     placeholder="Service Name">
 	    </div>
 	    <div class="col-sm-2">
 	      <button class="btn btn-primary" type="submit" tabindex="6">Add</button>
@@ -67,7 +70,7 @@
 		     id="name-new"
 		     name="name-new"
 		     tabindex="3"
-		     placeholder="Account Name">
+		     placeholder="User Name">
 	    </div>
 	    <div class="col-sm-5">
 	      <div class="input-group">
