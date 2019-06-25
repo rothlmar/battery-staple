@@ -26,12 +26,12 @@
   "author": "Mark Rothlisberger",
   "license": "ISC",
   "devDependencies": {
-    "bootstrap": "^4.1.3",
-    "electron": "^3.0.4",
-    "electron-builder": "^20.28.4",
-    "firebase": "^5.3.0",
-    "gulp": "^3.9.1",
-    "tweetnacl": "^1.0.0",
+    "bootstrap": ">=4.3.1",
+    "electron": "^5.0.5",
+    "electron-builder": "^20.44.4",
+    "firebase": "^5.11.1",
+    "gulp": "^4.0.2",
+    "tweetnacl": "^1.0.1",
     "tweetnacl-util": "^0.15.0"
   },
   "dependencies": {}

@@ -15,4 +15,4 @@ gulp.task('nacl', function() {
     .pipe(gulp.dest('nacl'));
 });
 
-gulp.task('default', ['bootstrap', 'firebase', 'nacl'])
+gulp.task('default', gulp.series('bootstrap', 'firebase', 'nacl'))

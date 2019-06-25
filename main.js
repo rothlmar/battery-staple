@@ -2,7 +2,7 @@ const { app, BrowserWindow, BrowserView, clipboard, ipcMain, Menu } = require('e
 const nacl = require('./nacl/nacl-fast.min.js');
 nacl.util = require('./nacl/nacl-util.min.js');
 
-const webPreferences = { nodeInteration: false };
+const webPreferences = { nodeIntegration: true };
 let mpw = null;
 let win = null;
 let view = null;
@@ -10,7 +10,7 @@ let view = null;
 function createWindow() {
   const opts = { width: 800, height: 700, webPreferences: webPreferences, resizable: false };
   win = new BrowserWindow(opts);
-  view = new BrowserView({ webPreference: webPreferences })
+  view = new BrowserView({ webPreferences: webPreferences })
   win.setBrowserView(view);
   // view.webContents.openDevTools();
   win.loadFile('startup.html');
